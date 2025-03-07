@@ -1,0 +1,61 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "createHelloWorld",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"test/HelloWorldFactory.sol": "HelloWorldFactory"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"test/HelloWorldFactory.sol": {
+			"keccak256": "0xc704ef3dca00ee30849a8290944523701782bc2e0977a9c9aef93a6c38f531c1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8aca7505305305a93774fbad12578a6db54eded988db7fb3df8692dc5136a581",
+				"dweb:/ipfs/QmNMeztewXy7FL2YDFa7i5r8vowGbVQXroZ6mPFyvnUDVu"
+			]
+		},
+		"test/test.sol": {
+			"keccak256": "0x3576c0b26ee655a3093f64ce06b0be727de4fb96bde80b6ad76fe5fc2d6b3fc2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7b54b8bc57f4e026c81db2453993958d296a23a34e9b1146e22333ae9ce783e7",
+				"dweb:/ipfs/QmQEvfssR1jGBS6n4Kd6gr6DzXGGb7qnZk3uNDA36EU6sW"
+			]
+		}
+	},
+	"version": 1
+}
