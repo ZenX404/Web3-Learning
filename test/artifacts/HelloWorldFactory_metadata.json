@@ -6,10 +6,76 @@
 	"output": {
 		"abi": [
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_index",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					}
+				],
+				"name": "callSayHelloByFactory",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_index",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "newString",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					}
+				],
+				"name": "callSetHelloWorldFromFactory",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "createHelloWorld",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_index",
+						"type": "uint256"
+					}
+				],
+				"name": "getHelloWorldByIndex",
+				"outputs": [
+					{
+						"internalType": "contract HelloWorld",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			}
 		],
@@ -41,11 +107,11 @@
 	},
 	"sources": {
 		"test/HelloWorldFactory.sol": {
-			"keccak256": "0xc704ef3dca00ee30849a8290944523701782bc2e0977a9c9aef93a6c38f531c1",
+			"keccak256": "0x4f1e5adf53cacabb8fd3a3b677390d085b4600ef56ce3d8507319083da3573a7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8aca7505305305a93774fbad12578a6db54eded988db7fb3df8692dc5136a581",
-				"dweb:/ipfs/QmNMeztewXy7FL2YDFa7i5r8vowGbVQXroZ6mPFyvnUDVu"
+				"bzz-raw://dd10e5919ad4c994d3ba56c51abb7592b0cf9519f831763076aa926d34726e44",
+				"dweb:/ipfs/QmVvpM8AeuAvvnw5DQLtH29dbwoqHjgmu2rHGJJnT7RQGn"
 			]
 		},
 		"test/test.sol": {
