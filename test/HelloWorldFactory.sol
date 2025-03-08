@@ -19,5 +19,23 @@ contract HelloWorldFactory {
         hws.push(hw);
     }
 
+    // 因为该函数只会进行读取操作，所以用view修饰符
+    function getHelloWorldByIndex(uint256 _index) public view returns (HelloWorld) {
+        return hws[_index];
+    }
+
+    // 修饰关键字可以每一个占一行，这样看起来更清楚
+    function callSayHelloByFactory(uint256 _index, uint256 _id)
+        public 
+        view 
+        returns (string memory) {
+            return hws[_index].sayHello(_id);
+    }
+
+    // 该函数涉及到修改操作，所以就不能用view修饰了，就不要写修饰关键字了
+    function callSetHelloWorldFromFactory(uint256 _index, string memory newString, uint256 _id) public {
+        hws[_index].setHelloWorld(newString, _id);
+    }
+
  
 }
