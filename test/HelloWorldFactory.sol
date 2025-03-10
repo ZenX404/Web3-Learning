@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 // 同一个sol文件中可以创建多个合约
 
-// 1、可以引入其他文件中的合约，也可以指定要引入哪一个合约
+// 1、可以引入其他文件中的合约，并且还可以在前面添加一个大括号来指定要引入文件中具体哪一个合约
 import { HelloWorld } from "./test.sol";
 // 2、也可以直接导入一个Url（比如GitHub仓库中的某一个代码的Url,写在引号内即可引入代码中的合约）
 // import { HelloWorld } from "https://github.com/ZenX404/Web3-Learning/blob/main/test/test.sol";
