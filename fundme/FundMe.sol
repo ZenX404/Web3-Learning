@@ -29,8 +29,13 @@ contract FundMe {
     // 合约所有者
     address public owner;
 
+    // 合约部署时间戳
+    uint256 deploymentTimestamp;
+    // 锁定期时长
+    uint256 lockTime;
+
     // 智能合约的构造函数
-    constructor() {
+    constructor(uint256 _lockTime) {
         // 在构造函数中初始化喂价对象
         // 我们这里采用sepolia testnet（sepolia测试网络），所以在初始化的时候要传入chainlink中提供的sepolia测试网络地址（在sepolia测试网络中部署的预言机地址），这样才能调用到部署在测试网络上的预言机
         // 我们要把合约部署到什么网络上，下面这个初始化就要传入对应网络的预言机部署地址
@@ -38,6 +43,13 @@ contract FundMe {
 
         // 在合约部署的时候会调用构造函数，然后就可以初始化合约所有者为当时部署合约的地址
         owner = msg.sender;
+
+        // msg系统变量表示的是当前这次交易
+        // block系统变量表示的是当前的区块
+        // block.timestamp表示当前区块的时间戳是多少
+        // 记录合约部署的时间
+        deploymentTimestamp = block.timestamp;
+        lockTime = _lockTime;
     }
 
 
@@ -49,6 +61,9 @@ contract FundMe {
         // require(condition, "") 当condition是false时，就会回退本次交易（revert），并提出相应的错误信息
         // 只有当condition是true时，才会成功执行本次交易
         require(convertEthToUsd(msg.value) >= MINIMUM_VALUE, "Send more ETH");
+        // 获取当前发起这次交易的区块的时间戳，确保当前时间还在锁定期内
+        require(block.timestamp < deploymentTimestamp + lockTime, "window is close");
+
         // 记录下投资人的地址以及他投资了多少金额
         fundersToAmount[msg.sender] = msg.value;
     }
@@ -86,13 +101,14 @@ contract FundMe {
         owner = newOwner;
     }
 
-    // 达到目标值，生产商可以提款
+    // 在锁定期内，达到目标值，生产商可以提款
     // external修饰表明是一个外部函数，可以被外部调用
     function getFund() external {
         // this表示当前合约，address(this)能获取到当前合约的地址，进而就能获取到当前合约已经收取了多少钱
         require(convertEthToUsd(address(this).balance) /*balance的单位是wei*/ >= TARGET, "Target is not reached");
         // 只有合约所有者才能提款
         require(msg.sender == owner, "this function can only be called by owner");
+        require(block.timestamp >= deploymentTimestamp + lockTime, "window is not close");
 
         // solidity中转账操作提供了三个函数，transfer、send和call，其中前两个就是单纯的转账，
         // 第三个call是在实现转行的同时，还能调用指定的函数，来提供更多额外的操作，只要是专场场景都可以用call实现，所以solidity官方推荐用call。当然可能一些老的项目里还会用transfer和send。
@@ -113,11 +129,12 @@ contract FundMe {
         // 转移所有钱之后，需要把fundersToAmount数组中所有用户的值都清零
     }
 
-    // 没有达到目标值，投资人退款
+    // 在锁定期内，没有达到目标值，投资人在锁定期以后退款
     function refund() external {
         require(convertEthToUsd(address(this).balance) < TARGET, "Target is reached");
         // 检查一下当前调用合约的这个人之前是否有过众筹投款记录
         require(fundersToAmount[msg.sender] != 0, "there is no fund for you");
+        require(block.timestamp >= deploymentTimestamp + lockTime, "window is not close");
 
         bool success;
         // 把当时该用户投的钱退款
