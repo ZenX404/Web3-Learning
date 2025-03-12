@@ -95,20 +95,17 @@ contract FundMe {
     }
 
     // 转移合约所有权
-    function transferOwnership(address newOwner) public {
+    function transferOwnership(address newOwner) public onlyOwner {
         // 只能是合约所有者才能去转移合约所有权
-        require(msg.sender == owner, "this function can only be called by owner");
         owner = newOwner;
     }
 
     // 在锁定期内，达到目标值，生产商可以提款
     // external修饰表明是一个外部函数，可以被外部调用
-    function getFund() external {
+    // onlyOwner修改器修饰， 只有合约所有者才能提款
+    function getFund() external windowClose onlyOwner {
         // this表示当前合约，address(this)能获取到当前合约的地址，进而就能获取到当前合约已经收取了多少钱
         require(convertEthToUsd(address(this).balance) /*balance的单位是wei*/ >= TARGET, "Target is not reached");
-        // 只有合约所有者才能提款
-        require(msg.sender == owner, "this function can only be called by owner");
-        require(block.timestamp >= deploymentTimestamp + lockTime, "window is not close");
 
         // solidity中转账操作提供了三个函数，transfer、send和call，其中前两个就是单纯的转账，
         // 第三个call是在实现转行的同时，还能调用指定的函数，来提供更多额外的操作，只要是专场场景都可以用call实现，所以solidity官方推荐用call。当然可能一些老的项目里还会用transfer和send。
@@ -130,11 +127,11 @@ contract FundMe {
     }
 
     // 在锁定期内，没有达到目标值，投资人在锁定期以后退款
-    function refund() external {
+    // 应用windowClose修改器
+    function refund() external windowClose {
         require(convertEthToUsd(address(this).balance) < TARGET, "Target is reached");
         // 检查一下当前调用合约的这个人之前是否有过众筹投款记录
         require(fundersToAmount[msg.sender] != 0, "there is no fund for you");
-        require(block.timestamp >= deploymentTimestamp + lockTime, "window is not close");
 
         bool success;
         // 把当时该用户投的钱退款
@@ -144,4 +141,19 @@ contract FundMe {
         fundersToAmount[msg.sender] = 0;
     }
 
+    // 定义一个修改器
+    // 这里使用修改器来简化代码
+    // 有点类似于spring中的AOP切面
+    modifier windowClose() {
+        require(block.timestamp >= deploymentTimestamp + lockTime, "window is not close");
+        // 表示应用该修改器的函数的逻辑。这样写相当于在应用该修改器最开始执行上面的require，然后再去执行自己的代码
+        _;
+    }
+
+    // 定义一个修改器
+    modifier onlyOwner() {
+        require(msg.sender == owner, "this function can only be called by owner");
+        // 表示应用该修改器的函数的逻辑。这样写相当于在应用该修改器最开始执行上面的require，然后再去执行自己的代码
+        _;
+    }
 }
