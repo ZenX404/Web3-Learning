@@ -64,6 +64,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "getFundSuccess",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "owner",
 				"outputs": [
 					{
@@ -78,6 +91,37 @@
 			{
 				"inputs": [],
 				"name": "refund",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_erc20Addr",
+						"type": "address"
+					}
+				],
+				"name": "setErc20Addr",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "funder",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountToUpdate",
+						"type": "uint256"
+					}
+				],
+				"name": "setFunderToAmount",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -109,7 +153,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"fundme/FundMe.sol": "FundMe"
+			"fundme/FundTokenERC20_flattened.sol": "FundMe"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -123,20 +167,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol": {
-			"keccak256": "0xfe4e8bb4861bb3860ba890ab91a3b818ec66e5a8f544fb608cfcb73f433472cd",
+		"fundme/FundTokenERC20_flattened.sol": {
+			"keccak256": "0xbad32483106b5a08494bafbfbb7fde30efa01e22be8fa87f3b3292eb7f6d855a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://644cff84052e1e82b5bb502b2a46e8f142a62b0db4cd9b38200798ba8373c6f7",
-				"dweb:/ipfs/QmTa99QHrJBn3SXDizquPBUiTxVCNKQrHgaWJhuds5Sce2"
-			]
-		},
-		"fundme/FundMe.sol": {
-			"keccak256": "0x1f601209c30cfc23c7d0fb6331ee35bbb634e6e4643d8893dd1ba0abd5fa7d15",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://0d07d125958de51aaaed5ccf7adcd2255d576f4c6b0ee9694f376709cff8eb2d",
-				"dweb:/ipfs/QmRkSDUqAtmt2CGaFvC9Vw6mdwFi2KFEz18yMY4X3c41T3"
+				"bzz-raw://800be799671759ea1efc7b1d3b2f19a1a0f5c75f422768f9b7899f9855200238",
+				"dweb:/ipfs/QmevpgTRoMB3sitqgECpFp4PogUezAr6MJ9doZJ19a1jsY"
 			]
 		}
 	},
