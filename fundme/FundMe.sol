@@ -34,6 +34,11 @@ contract FundMe {
     // 锁定期时长
     uint256 lockTime;
 
+    address erc20Addr;
+
+    // 标记生产商是否已经完成提款
+    bool public getFundSuccess = false;
+
     // 智能合约的构造函数
     constructor(uint256 _lockTime) {
         // 在构造函数中初始化喂价对象
@@ -124,6 +129,9 @@ contract FundMe {
         require(success, "transfer tx failed");
         
         // 转移所有钱之后，需要把fundersToAmount数组中所有用户的值都清零
+
+        // 标记生产商已经完成提款
+        getFundSuccess = true;
     }
 
     // 在锁定期内，没有达到目标值，投资人在锁定期以后退款
@@ -139,6 +147,19 @@ contract FundMe {
         require(success, "transfer tx failed");
         // 清空该用户的fund金额，防止重复退款bug
         fundersToAmount[msg.sender] = 0;
+    }
+
+    // 修改用户投资余额
+    function setFunderToAmount(address funder, uint256 amountToUpdate) external {
+        // 只有外部erc20合约地址才能调用该函数来修改用户投资余额
+        require(msg.sender == erc20Addr, "you do not have permission to call this funtion");
+        fundersToAmount[funder] = amountToUpdate;
+    }
+
+    // 设置外部erc20合约地址
+    // 只有当前合约拥有者才能调用该函数
+    function setErc20Addr(address _erc20Addr) public onlyOwner {
+        erc20Addr = _erc20Addr;
     }
 
     // 定义一个修改器
